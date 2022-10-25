@@ -35,10 +35,7 @@ class Pedido
      */
     private $restaurante;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Plato::class, mappedBy="pedido")
-     */
-    private $platos;
+
 
     /**
      * @ORM\ManyToOne(targetEntity=Cliente::class, inversedBy="pedidos")
@@ -58,11 +55,19 @@ class Pedido
      */
     private $estado;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PlatoCantidad::class, mappedBy="pedido", orphanRemoval=true)
+     */
+    private $platoCantidades;
+
+
+
     public function __construct()
     {
         $this->clientes = new ArrayCollection();
         $this->restaurante = new ArrayCollection();
         $this->platos = new ArrayCollection();
+        $this->platoCantidades = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -151,35 +156,6 @@ class Pedido
         return $this;
     }
 
-    /**
-     * @return Collection<int, Plato>
-     */
-    public function getPlatos(): Collection
-    {
-        return $this->platos;
-    }
-
-    public function addPlato(Plato $plato): self
-    {
-        if (!$this->platos->contains($plato)) {
-            $this->platos[] = $plato;
-            $plato->setPedido($this);
-        }
-
-        return $this;
-    }
-
-    public function removePlato(Plato $plato): self
-    {
-        if ($this->platos->removeElement($plato)) {
-            // set the owning side to null (unless already changed)
-            if ($plato->getPedido() === $this) {
-                $plato->setPedido(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getCliente(): ?Cliente
     {
@@ -216,4 +192,36 @@ class Pedido
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, PlatoCantidad>
+     */
+    public function getPlatoCantidades(): Collection
+    {
+        return $this->platoCantidades;
+    }
+
+    public function addPlatoCantidade(PlatoCantidad $platoCantidade): self
+    {
+        if (!$this->platoCantidades->contains($platoCantidade)) {
+            $this->platoCantidades[] = $platoCantidade;
+            $platoCantidade->setPedido($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlatoCantidade(PlatoCantidad $platoCantidade): self
+    {
+        if ($this->platoCantidades->removeElement($platoCantidade)) {
+            // set the owning side to null (unless already changed)
+            if ($platoCantidade->getPedido() === $this) {
+                $platoCantidade->setPedido(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }
