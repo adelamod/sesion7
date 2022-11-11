@@ -21,7 +21,6 @@ framework:
     php_errors:
         log: true
 
-    #configuración serializer rutas
     serializer:
         enabled: true
         mapping:

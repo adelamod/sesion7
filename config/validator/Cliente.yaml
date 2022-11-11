@@ -1,0 +1,12 @@
+App\Entity\Cliente:
+  properties:
+    nombre:
+      -NotBlank: ~
+    apellidos:
+      -NotBlank: ~
+    telefono:
+      -NotBlank: ~
+      -Length:
+        max: 9
+        maxMessage: "El teléfono debe tener 9 números."
+
